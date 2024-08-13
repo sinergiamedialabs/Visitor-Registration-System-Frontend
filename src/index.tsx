@@ -3,13 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { visitorSystem } from './services/invite';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    <ApiProvider api={visitorSystem}>
     <App />
+    </ApiProvider>
   </React.StrictMode>
 );
 
