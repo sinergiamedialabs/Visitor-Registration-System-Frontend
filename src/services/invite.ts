@@ -27,14 +27,37 @@ interface User {
   phoneNumber: number;
 }
 
+interface inviteeRequestType {
+  id: number;
+  user_id: number;
+  venue_id: number;
+  event_id: number;
+  email: string;
+  url: string;
+  status: boolean;
+  emailTrigger: boolean;
+}
+
+interface visitRequest{
+  id: number;
+  invitees_id: number;
+  barCode: string;
+  isAccepted: boolean;
+}
+
 const BaseUrl = process.env.REACT_APP_API_BASE_URL
 
 // Define a service using a base URL and expected endpoints
 export const visitorSystem = createApi({
-  reducerPath: 'pokemonApi',
   baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
   endpoints: (builder) => ({
     masterApi: builder.query<MaterApiResponse, void>({
+      query: () => ``,
+    }),
+    inviteeRequest: builder.query<void, inviteeRequestType>({
+      query: () => ``,
+    }),
+    visitRequest: builder.query<void, visitRequest>({
       query: () => ``,
     }),
   }),
