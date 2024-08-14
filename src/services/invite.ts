@@ -64,14 +64,31 @@ interface inviteeResponseUser {
   phoneNumber: string;
 }
 
-interface visitRequest {
-  id: number;
+interface visitRequestType{
+  // id: number;
   invitees_id: number;
   barCode: string;
   isAccepted: boolean;
 }
 
 const BaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+interface inviteesDetailsRequest {
+  data: Invitees;
+  message: string;
+  code: string;
+}
+interface inviteesDetailsData {
+  invitees: Invitees;
+}
+interface Invitees {
+  id: number;
+  status: boolean;
+  user: User;
+  venue: Venue;
+  event: Event;
+}
+
 
 // Define a service using a base URL and expected endpoints
 export const visitorSystem = createApi({
@@ -88,11 +105,18 @@ export const visitorSystem = createApi({
         body: payload,
       }),
     }),
-    visitRequest: builder.mutation<void, visitRequest>({
-            query: (data: visitRequest) => ({
-                url: '',
+
+    visitRequest: builder.mutation<void, visitRequestType>({
+            query: (data: visitRequestType) => ({
+                url: '/saveVisits',
                 method: 'POST',
                 body: data,
+            }),
+        }),
+        inviteDetails: builder.query<inviteesDetailsRequest, string>({
+            query: (invitees_id) => ({
+                url: `/getInviteById/${invitees_id}`,
+                method: 'GET',
             }),
         }),
   }),
@@ -101,4 +125,5 @@ export const visitorSystem = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 
-export const { useMasterApiQuery, useVisitRequestMutation, useInviteeRequestMutation } = visitorSystem
+export const { useMasterApiQuery, useVisitRequestMutation,useInviteeRequestMutation,useInviteDetailsQuery } = visitorSystem
+
