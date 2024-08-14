@@ -15,6 +15,7 @@ export const InviteApproval: React.FC<InviteProps> = () => {
   const [randomBarcodeNumber, setRandomBarcodeNumber] = useState<string | null>(null);
   const [visitRequest, { isLoading: visitRequestLoading }] = useVisitRequestMutation();
   const [disabled, setDisabled] = useState(false); 
+  const [rejectMessage, setRejectMessage] = useState<string>('')
 
   const generateRandomNumber = () => {
     const length = 12; 
@@ -55,6 +56,7 @@ export const InviteApproval: React.FC<InviteProps> = () => {
           toast.error("Failed to submit response.");
         }
         setDisabled(true); 
+        setRejectMessage("Invitation Rejected")
       })
       .catch(() => {
         toast.error("Failed to submit response.");
@@ -92,7 +94,9 @@ export const InviteApproval: React.FC<InviteProps> = () => {
                     <span>{inviteDetails?.data?.venue?.address || "Address"}</span>
                   </div>
                 </div>
-                <div className={styles.inviteUserAction}>
+                {
+                  !disabled && 
+                  <div className={styles.inviteUserAction}>
                   <button
                     className={styles.inviteUserActionYes}
                     onClick={generateRandomNumber}
@@ -108,9 +112,13 @@ export const InviteApproval: React.FC<InviteProps> = () => {
                     No
                   </button>
                 </div>
+                }
+                
                 {
-                    disabled && 
-                    <div style={{fontSize: 12, color: 'red'}}>Response already submitted</div>
+                  rejectMessage ? 
+                  <div style={{fontSize: 12, color: 'red'}}>{rejectMessage}</div> : 
+                    disabled &&
+                    <div style={{fontSize: 12, color: 'red', marginTop: 20}}>Response already submitted</div>
                 }
               </>
             )}
