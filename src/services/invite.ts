@@ -89,6 +89,10 @@ interface Invitees {
   event: Event;
 }
 
+interface userRegisterRequestType {
+
+}
+
 
 // Define a service using a base URL and expected endpoints
 export const visitorSystem = createApi({
@@ -113,17 +117,24 @@ export const visitorSystem = createApi({
                 body: data,
             }),
         }),
-        inviteDetails: builder.query<inviteesDetailsRequest, string>({
-            query: (invitees_id) => ({
-                url: `/getInviteById/${invitees_id}`,
-                method: 'GET',
-            }),
+    userRegistration: builder.mutation<void, userRegisterRequestType>({
+          query: (data: visitRequestType) => ({
+              url: '/',
+              method: 'POST',
+              body: data,
+          }),
+      }),
+    inviteDetails: builder.query<inviteesDetailsRequest, string>({
+        query: (invitees_id) => ({
+            url: `/getInviteById/${invitees_id}`,
+            method: 'GET',
         }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 
-export const { useMasterApiQuery, useVisitRequestMutation,useInviteeRequestMutation,useInviteDetailsQuery } = visitorSystem
+export const { useMasterApiQuery, useVisitRequestMutation,useInviteeRequestMutation,useInviteDetailsQuery, useUserRegistrationMutation } = visitorSystem
 

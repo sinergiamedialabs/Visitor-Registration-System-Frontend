@@ -4,31 +4,40 @@ import { Box, Button, MenuItem } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { useUserRegistrationMutation } from "../../services/invite";
 
 const UserRegistration: React.FC = () => {
+  const [userRegistration] = useUserRegistrationMutation();
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required*"),
-    venue: Yup.string().required("Venue is required*"),
-    event: Yup.string().required("Event is required*"),
+    fullName: Yup.string().required("Fullname is required*"),
+    email: Yup.string().required("Email is required*"),
+    phoneNumber: Yup.string().required("Phone number is required*"),
   });
-  const handleSubmit = () => {
-    // alert("Submit");
-    toast.success("msg");
+  const handleSubmit = async(values: any) => {
+    const payload = {
+      "fullName": "megha",
+      "email": "megha.mohandas@simelabs.com",
+      "phoneNumber": "9400315869"
+    }
+    
+    try {
+      const response = await userRegistration(payload);
+      console.log(response);
+    } catch {
+      toast.error("Error");
+    }
   };
-  const handletest = () => {
-    // alert("Submit");
-    toast.success("msg");
-  };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.subContainer}>
         <Box className={styles.centeredBox}>
           <Formik
             initialValues={{
-              name: "",
-              venue: "",
-              event: "",
+              fullName: "",
+              email: "",
+              phoneNumber: "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -68,17 +77,17 @@ const UserRegistration: React.FC = () => {
                   />
                 </div>   
                 <div style={{}}>
-                  <label>Email</label>
+                  <label>Contact number</label>
                   <Field
-                    name="email"
-                    id="email"
+                    name="phonenumber"
+                    id="phonenumber"
                     type="email"
                     className={styles.textField}
-                    label="Email"
+                    label="Phone number"
                   >
                   </Field>
                   <ErrorMessage
-                    name="email"
+                    name="phonenumber"
                     component="div"
                     className={styles.error}
                   />
