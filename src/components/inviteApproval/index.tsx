@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./inviteApproval.module.scss";
 import Barcode from "./barcode";
 import { useVisitRequestMutation, useInviteDetailsQuery } from "../../services/invite";
@@ -15,7 +15,6 @@ export const InviteApproval: React.FC<InviteProps> = () => {
   const [randomBarcodeNumber, setRandomBarcodeNumber] = useState<string | null>(null);
   const [visitRequest, { isLoading: visitRequestLoading }] = useVisitRequestMutation();
   const [disabled, setDisabled] = useState(false); 
-  console.log("inviteDetails:", inviteDetails);
 
   const generateRandomNumber = () => {
     const length = 12; 
@@ -62,6 +61,13 @@ export const InviteApproval: React.FC<InviteProps> = () => {
       });
   };
 
+  useEffect(() => {
+    if(inviteDetails?.data.status){
+      setDisabled(true)
+    }
+  }, [inviteDetails])
+  
+
   return (
     <div className={styles.inviteMainContainer}>
       <div className={styles.inviteSubContainer}>
@@ -102,6 +108,10 @@ export const InviteApproval: React.FC<InviteProps> = () => {
                     No
                   </button>
                 </div>
+                {
+                    disabled && 
+                    <div style={{fontSize: 12, color: 'red'}}>Response already submitted</div>
+                }
               </>
             )}
           </>
