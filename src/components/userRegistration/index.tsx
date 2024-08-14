@@ -11,12 +11,16 @@ const UserRegistration: React.FC = () => {
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Fullname is required*"),
-    email: Yup.string().required("Email is required*"),
-    phoneNumber: Yup.string().required("Phone number is required*"),
+    email: Yup.string().required("Email is required*").matches(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Please enter a valid email address',
+    )
+    .matches(/@[a-zA-Z0-9._-]{3,}\.+[a-zA-Z]{2,}$/, 'Please enter a valid email address'),
+    phoneNumber: Yup.number().required("Phone number is required*").max(10, 'Phone number must not exceed 10 digits'),
   });
   const handleSubmit = async(values: any) => {
     const payload = {
-      "fullName": "megha",
+      "fullName": "",
       "email": "megha.mohandas@simelabs.com",
       "phoneNumber": "9400315869"
     }
@@ -76,18 +80,18 @@ const UserRegistration: React.FC = () => {
                     className={styles.error}
                   />
                 </div>   
-                <div style={{}}>
+                <div className={styles.fieldDiv}>
                   <label>Contact number</label>
                   <Field
-                    name="phonenumber"
+                    name="phoneNumber"
                     id="phonenumber"
-                    type="email"
+                    type="number"
                     className={styles.textField}
                     label="Phone number"
                   >
                   </Field>
                   <ErrorMessage
-                    name="phonenumber"
+                    name="phoneNumber"
                     component="div"
                     className={styles.error}
                   />
