@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from './inviteApproval.module.scss'
 import Barcode from "./barcode";
+import { useVisitRequestMutation } from "../../services/invite";
 // import { useNavigate } from 'react-router-dom';
 
 interface InviteProps {
@@ -9,6 +10,8 @@ interface InviteProps {
 
 export const InviteApproval: React.FC<InviteProps> = () => {
   const [randomBarcodeNumber, setRandomBarcodeNumber] = useState<string | null>(null);
+  const [visitRequest, { isLoading: visitRequestLoading }] =
+  useVisitRequestMutation();
   console.log("randomBarcodeNumber:",randomBarcodeNumber)
 //   const navigate = useNavigate(); 
 
@@ -20,6 +23,9 @@ export const InviteApproval: React.FC<InviteProps> = () => {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     setRandomBarcodeNumber(result); // Update the state with the new barcode number
+    if(result){
+      
+    }
   };
 
 //   const handleCancel = () => {

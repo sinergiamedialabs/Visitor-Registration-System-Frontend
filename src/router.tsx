@@ -9,7 +9,7 @@ export const router = createBrowserRouter([
     element: <Invite />,
   },
   {
-    path: "/invite_approval",
+    path: "/invite_approval/:id",
     element: <InviteApproval />,
   },
 ]);
