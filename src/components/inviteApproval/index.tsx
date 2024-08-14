@@ -1,71 +1,117 @@
 import React, { useState } from "react";
-import styles from './inviteApproval.module.scss'
+import styles from "./inviteApproval.module.scss";
 import Barcode from "./barcode";
-import { useVisitRequestMutation } from "../../services/invite";
-// import { useNavigate } from 'react-router-dom';
+import { useVisitRequestMutation, useInviteDetailsQuery } from "../../services/invite";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
-interface InviteProps {
-  // Define any props here if needed
-}
+interface InviteProps {}
 
 export const InviteApproval: React.FC<InviteProps> = () => {
+  const { id } = useParams<{ id: string }>();
+  const invitees_id = id; 
+  
+  const { data: inviteDetails, error, isLoading } = useInviteDetailsQuery(invitees_id!); 
   const [randomBarcodeNumber, setRandomBarcodeNumber] = useState<string | null>(null);
-  const [visitRequest, { isLoading: visitRequestLoading }] =
-  useVisitRequestMutation();
-  console.log("randomBarcodeNumber:",randomBarcodeNumber)
-//   const navigate = useNavigate(); 
+  const [visitRequest, { isLoading: visitRequestLoading }] = useVisitRequestMutation();
+  const [disabled, setDisabled] = useState(false); 
+  console.log("inviteDetails:", inviteDetails);
 
   const generateRandomNumber = () => {
-    const length = 12; // Adjust the length of the random number as needed
-    let result = '';
-    const characters = '0123456789';
+    const length = 12; 
+    let result = "";
+    const characters = "0123456789";
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-    setRandomBarcodeNumber(result); // Update the state with the new barcode number
-    if(result){
-      
+    setRandomBarcodeNumber(result);
+
+    if (result) {
+      // Call the visitRequest API with isAccepted: true
+      visitRequest({
+        invitees_id: parseInt(invitees_id!), barCode: result, isAccepted: true
+      })
+        .then((res) => {
+          if (res?.data) {
+            toast.success("Barcode submitted successfully!");
+          } else {
+            toast.error("Failed to submit response.");
+          }
+        })
+        .catch(() => {
+          toast.error("Failed to submit barcode.");
+        });
     }
   };
 
-//   const handleCancel = () => {
-//     setRandomBarcodeNumber(null); 
-//     navigate('/');
-//   };
+  const handleNoClick = () => {
+    // Call the visitRequest API with isAccepted: false
+    visitRequest({
+      invitees_id: parseInt(invitees_id!), barCode: '', isAccepted: false
+    })
+      .then((res) => {
+        if (res?.data) {
+          toast.success("Response submitted successfully!");
+        } else {
+          toast.error("Failed to submit response.");
+        }
+        setDisabled(true); 
+      })
+      .catch(() => {
+        toast.error("Failed to submit response.");
+      });
+  };
 
   return (
     <div className={styles.inviteMainContainer}>
       <div className={styles.inviteSubContainer}>
         {!randomBarcodeNumber ? (
           <>
-            <span className={styles.inviteHeaderText}>Do you wish to accept the invitation?</span>
-            <div className={styles.inviteDetails}>
-                <div className={styles.inviteDetailsLabels}>
-                <span>Event:</span>
-              <span>Venue:</span>
-              <span>Date: </span>
-              <span>Time:</span>
+            {isLoading ? (
+              <span>Loading...</span>
+            ) : (
+              <>
+                <span className={styles.inviteHeaderText}>
+                  Do you wish to accept the invitation?
+                </span>
+                <div className={styles.inviteDetails}>
+                  <div className={styles.inviteDetailsLabels}>
+                    <span>Event:</span>
+                    <span>Venue:</span>
+                    <span>Address:</span>
+                  </div>
+                  <div className={styles.inviteDetailsLabels}>
+                    <span>{inviteDetails?.data?.event?.name || "Event"}</span>
+                    <span>{inviteDetails?.data?.venue?.name || "Venue"}</span>
+                    <span>{inviteDetails?.data?.venue?.address || "Address"}</span>
+                  </div>
                 </div>
-              <div className={styles.inviteDetailsLabels}>
-              <span>Conference</span>
-              <span>WTC</span>
-              <span>15th August 2024</span>
-              <span>12 pm</span>
-              </div>
-            </div>
-            <div className={styles.inviteUserAction}>
-              <button className={styles.inviteUserActionYes} onClick={generateRandomNumber}>Yes</button>
-              <button className={styles.inviteUserActionNo}>No</button>
-            </div>
+                <div className={styles.inviteUserAction}>
+                  <button
+                    className={styles.inviteUserActionYes}
+                    onClick={generateRandomNumber}
+                    disabled={disabled} // Disable button if state is true
+                  >
+                    Yes
+                  </button>
+                  <button 
+                    className={styles.inviteUserActionNo} 
+                    onClick={handleNoClick}
+                    disabled={disabled} // Disable button if state is true
+                  >
+                    No
+                  </button>
+                </div>
+              </>
+            )}
           </>
         ) : (
           <div className={styles.BarcodeContainer}>
-              <span className={styles.inviteHeaderText}>Here is your Barcode</span>
+            <span className={styles.inviteHeaderText}>Here is your Barcode</span>
             <Barcode value={randomBarcodeNumber} /> {/* Display the barcode */}
-            {/* <button className={styles.inviteUserActionNo} onClick={handleCancel}>Cancel</button> */}
           </div>
         )}
       </div>
     </div>
   );
-}
+};
