@@ -3,7 +3,7 @@ import { injectStyle } from "react-toastify/dist/inject-style";
 injectStyle();
 const toastContainerProps: ToastContainerProps = {
   position: "bottom-center",
-  autoClose: 3000,
+  autoClose: false,
   hideProgressBar: true,
   closeOnClick: true,
   pauseOnHover: true,
