@@ -1,5 +1,5 @@
 // Need to use the React-specific entry point to import createApi
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface MaterApiResponse {
   data: Data;
@@ -28,14 +28,40 @@ interface User {
 }
 
 interface inviteeRequestType {
-  id: number;
-  user_id: number;
-  venue_id: number;
-  event_id: number;
-  email: string;
+  userId: number;
+  venueId: number;
+  eventId: number;
   url: string;
+}
+
+interface inviteeResponseType {
+  data?: inviteeResponseData;
+  message: string;
+  code: string;
   status: boolean;
-  emailTrigger: boolean;
+}
+
+interface inviteeResponseData {
+  id: number;
+  user: inviteeResponseUser;
+  venue: inviteeResponseVenue;
+  event: inviteeResponseEvent;
+  status: boolean;
+}
+interface inviteeResponseEvent {
+  id: number;
+  name: string;
+}
+interface inviteeResponseVenue {
+  id: number;
+  name: string;
+  address: string;
+}
+interface inviteeResponseUser {
+  id: number;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
 }
 
 interface visitRequestType{
@@ -44,6 +70,8 @@ interface visitRequestType{
   barCode: string;
   isAccepted: boolean;
 }
+
+const BaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 interface inviteesDetailsRequest {
   data: Invitees;
@@ -61,18 +89,23 @@ interface Invitees {
   event: Event;
 }
 
-const BaseUrl = "http://ad5a6b93872024abba528cb02f5a97fe-1839394268.ap-south-1.elb.amazonaws.com"
 
 // Define a service using a base URL and expected endpoints
 export const visitorSystem = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
   endpoints: (builder) => ({
     masterApi: builder.query<MaterApiResponse, void>({
-      query: () => ``,
+      query: () =>
+        `getAll`,
     }),
-    inviteeRequest: builder.query<void, inviteeRequestType>({
-      query: () => ``,
+    inviteeRequest: builder.mutation<inviteeResponseType, inviteeRequestType>({
+      query: (payload: object) => ({
+        url: "invitees",
+        method: "POST",
+        body: payload,
+      }),
     }),
+
     visitRequest: builder.mutation<void, visitRequestType>({
             query: (data: visitRequestType) => ({
                 url: '/saveVisits',
@@ -87,8 +120,10 @@ export const visitorSystem = createApi({
             }),
         }),
   }),
-})
+});
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useMasterApiQuery, useInviteeRequestQuery, useVisitRequestMutation,useInviteDetailsQuery } = visitorSystem
+
+export const { useMasterApiQuery, useVisitRequestMutation,useInviteeRequestMutation,useInviteDetailsQuery } = visitorSystem
+

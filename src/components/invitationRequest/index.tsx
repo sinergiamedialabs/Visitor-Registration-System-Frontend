@@ -1,44 +1,94 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./inviteRequest.module.scss";
 import { Box, Button, MenuItem } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import {
+  useInviteeRequestMutation,
+  useMasterApiQuery,
+} from "../../services/invite";
+import { error } from "console";
 
 const Invite: React.FC = () => {
-  const [dropdownOptions, setDropdownOptions] = useState({
-    dropdownOne: [],
-    dropdownTwo: [],
-    dropdownThree: [],
+  const { data: masterApiData } = useMasterApiQuery();
+  const [inviteMutation] = useInviteeRequestMutation();
+
+  const [dropdownOptions, setDropdownOptions] = useState<any>({
+    nameList: [],
+    venueList: [],
+    eventList: [],
   });
+
+  useEffect(() => {
+    if (masterApiData) {
+      const nameList = masterApiData?.data?.user?.map((user: any) => ({
+        value: user.id,
+        label: user.fullName,
+      }));
+
+      const venueList = masterApiData?.data?.venue.map((venue: any) => ({
+        value: venue.id,
+        label: venue.name,
+      }));
+
+      const eventList = masterApiData?.data?.event.map((event: any) => ({
+        value: event.id,
+        label: event.name,
+      }));
+
+      setDropdownOptions({
+        nameList,
+        venueList,
+        eventList,
+      });
+    }
+  }, [masterApiData]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required*"),
     venue: Yup.string().required("Venue is required*"),
     event: Yup.string().required("Event is required*"),
   });
-  const handleSubmit = () => {
-    // alert("Submit");
-    toast.success("msg");
+
+  const initialValues = {
+    name: "",
+    event: "",
+    venue: "",
   };
-  const handletest = () => {
-    // alert("Submit");
-    toast.success("msg");
+
+  const handleSubmit = async (values: any) => {
+    const payload = {
+      userId: values.name,
+      venueId: values.venue,
+      eventId: values.event,
+      url: `${window.location.href}invite_approval`,
+    };
+    console.log(window.location.href);
+
+    try {
+      const response = await inviteMutation(payload);
+      console.log(response);
+      if (response?.data?.status === true) {
+        toast.success("Invitation successfully send");
+      } else if (response?.error) {
+        toast.error("Email already sent to the user for this event.");
+      }
+    } catch {
+      toast.error("Error");
+    }
   };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.subContainer}>
         <Box className={styles.centeredBox}>
           <Formik
-            initialValues={{
-              name: "",
-              venue: "",
-              event: "",
-            }}
+            initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit}
+            onSubmit={(values) => handleSubmit(values)}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, values }) => (
               <Form className={styles.contentColumn}>
                 <div className={styles.headingLabel}>Heading Label</div>
                 <div className={styles.fieldDiv}>
@@ -49,10 +99,13 @@ const Invite: React.FC = () => {
                     label="Name"
                     className={styles.fieldStyles}
                   >
-                    {dropdownOptions.dropdownOne.map((option: any) => (
-                      <MenuItem key={option.value} value={option.value}>
+                    <option style={{ color: "black" }} value="" disabled>
+                      Select Name
+                    </option>
+                    {dropdownOptions.nameList.map((option: any) => (
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </MenuItem>
+                      </option>
                     ))}
                   </Field>
                   <ErrorMessage
@@ -70,7 +123,10 @@ const Invite: React.FC = () => {
                     className={styles.fieldStyles}
                     label="Venue"
                   >
-                    {dropdownOptions.dropdownTwo.map((option: any) => (
+                    <option style={{ color: "black" }} value="" disabled>
+                      Select Venue
+                    </option>
+                    {dropdownOptions.venueList.map((option: any) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
                       </option>
@@ -90,10 +146,13 @@ const Invite: React.FC = () => {
                     className={styles.fieldStyles}
                     label="Event"
                   >
-                    {dropdownOptions.dropdownThree.map((option: any) => (
-                      <MenuItem key={option.value} value={option.value}>
+                    <option value="" disabled>
+                      Select Event
+                    </option>
+                    {dropdownOptions.eventList.map((option: any) => (
+                      <option key={option.value} value={option.value}>
                         {option.label}
-                      </MenuItem>
+                      </option>
                     ))}
                   </Field>
                   <ErrorMessage
