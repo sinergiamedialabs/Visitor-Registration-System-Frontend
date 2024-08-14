@@ -90,6 +90,12 @@ interface Invitees {
   event: Event;
 }
 
+interface userRegisterRequestType {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+}
+
 // Define a service using a base URL and expected endpoints
 export const visitorSystem = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
@@ -118,6 +124,13 @@ export const visitorSystem = createApi({
         method: "GET",
       }),
     }),
+    userRegistration: builder.mutation<void, userRegisterRequestType>({
+      query: (data: userRegisterRequestType) => ({
+          url: '/addUsers',
+          method: 'POST',
+          body: data,
+      }),
+    }),
   }),
 });
 
@@ -129,4 +142,5 @@ export const {
   useVisitRequestMutation,
   useInviteeRequestMutation,
   useInviteDetailsQuery,
+  useUserRegistrationMutation
 } = visitorSystem;
