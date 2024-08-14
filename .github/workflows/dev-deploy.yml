@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Populate env file
-        run: echo ${{ vars.REACT_APP_API_BASE_URL }} > .env
+        run: echo ${{ vars.REACT_APP_API_BASE_URL }} > .env ; cat .env
 
       - name: Build React App
         run: CI=false; npm run build; ls -al
