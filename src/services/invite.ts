@@ -90,7 +90,9 @@ interface Invitees {
 }
 
 interface userRegisterRequestType {
-
+  fullName: string;
+  email: string;
+  phoneNumber: string;
 }
 
 
@@ -118,8 +120,8 @@ export const visitorSystem = createApi({
             }),
         }),
     userRegistration: builder.mutation<void, userRegisterRequestType>({
-          query: (data: visitRequestType) => ({
-              url: '/',
+          query: (data: userRegisterRequestType) => ({
+              url: '/addUsers',
               method: 'POST',
               body: data,
           }),

@@ -16,18 +16,24 @@ const UserRegistration: React.FC = () => {
       'Please enter a valid email address',
     )
     .matches(/@[a-zA-Z0-9._-]{3,}\.+[a-zA-Z]{2,}$/, 'Please enter a valid email address'),
-    phoneNumber: Yup.number().required("Phone number is required*").max(10, 'Phone number must not exceed 10 digits'),
+    phoneNumber: Yup.string().required("Phone number is required*").max(10, 'Phone number must not exceed 10 digits'),
   });
   const handleSubmit = async(values: any) => {
     const payload = {
-      "fullName": "",
-      "email": "megha.mohandas@simelabs.com",
-      "phoneNumber": "9400315869"
+      fullName: values.fullName,
+      email: values.email,
+      phoneNumber: values.phoneNumber
     }
     
     try {
       const response = await userRegistration(payload);
-      console.log(response);
+      console.log(response)
+      if(response.error){
+        toast.error("Email already exists")
+      }
+      else{
+        toast.success("User registered succesfully")
+      }
     } catch {
       toast.error("Error");
     }
@@ -44,7 +50,7 @@ const UserRegistration: React.FC = () => {
               phoneNumber: "",
             }}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit}
+            onSubmit={(values) => handleSubmit(values)}
           >
             {({ isSubmitting }) => (
               <Form className={styles.contentColumn}>
@@ -52,14 +58,14 @@ const UserRegistration: React.FC = () => {
                 <div className={styles.fieldDiv}>
                   <label>Full name</label>
                   <Field
-                    name="fullname"
-                    id="fullname"
+                    name="fullName"
+                    id="fullName"
                     className={styles.textField}
                     label="Full name"
                   >
                   </Field>
                   <ErrorMessage
-                    name="fullname"
+                    name="fullName"
                     component="div"
                     className={styles.error}
                   />
@@ -99,7 +105,6 @@ const UserRegistration: React.FC = () => {
                   <Button
                   type="submit"
                   className={styles.inviteButton}
-                  disabled={isSubmitting}
                 >
                   User Register
                 </Button>
