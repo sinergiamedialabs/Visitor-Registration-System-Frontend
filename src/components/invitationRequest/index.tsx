@@ -90,7 +90,7 @@ const Invite: React.FC = () => {
           >
             {({ isSubmitting, values }) => (
               <Form className={styles.contentColumn}>
-                <div className={styles.headingLabel}>Heading Label</div>
+                <div className={styles.headingLabel}>Visitor Invites</div>
                 <div className={styles.fieldDiv}>
                   <label className={styles.labelStyles}>Name</label>
                   <Field
