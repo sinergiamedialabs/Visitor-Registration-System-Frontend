@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./inviteRequest.module.scss";
-import { Box, Button, MenuItem } from "@mui/material";
+import { Box, Button, CircularProgress, MenuItem } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -8,11 +8,12 @@ import {
   useInviteeRequestMutation,
   useMasterApiQuery,
 } from "../../services/invite";
-import { error } from "console";
+import logoImage from "../../assets/logo.png";
 
 const Invite: React.FC = () => {
   const { data: masterApiData } = useMasterApiQuery();
-  const [inviteMutation] = useInviteeRequestMutation();
+  const [inviteMutation, { isLoading: inviteeMutatuionLoading }] =
+    useInviteeRequestMutation();
 
   const [dropdownOptions, setDropdownOptions] = useState<any>({
     nameList: [],
@@ -115,7 +116,7 @@ const Invite: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label>Venue</label>
+                  <label className={styles.labelStyles}>Venue</label>
                   <Field
                     name="venue"
                     id="venue"
@@ -139,7 +140,7 @@ const Invite: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label>Event</label>
+                  <label className={styles.labelStyles}>Event</label>
                   <Field
                     name="event"
                     as="select"
@@ -166,8 +167,15 @@ const Invite: React.FC = () => {
                   className={styles.inviteButton}
                   disabled={isSubmitting}
                 >
-                  Invite
+                  {inviteeMutatuionLoading === true ? (
+                    <CircularProgress className={styles.loaderStyles} />
+                  ) : (
+                    "Invite"
+                  )}
                 </Button>
+                <div>
+                  <img className={styles.imgContainer} src={logoImage} />
+                </div>
               </Form>
             )}
           </Formik>

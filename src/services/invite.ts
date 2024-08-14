@@ -14,6 +14,7 @@ interface Data {
 interface Event {
   id: number;
   name: string;
+  eventDate: string;
 }
 interface Venue {
   id: number;
@@ -64,7 +65,7 @@ interface inviteeResponseUser {
   phoneNumber: string;
 }
 
-interface visitRequestType{
+interface visitRequestType {
   // id: number;
   invitees_id: number;
   barCode: string;
@@ -95,14 +96,12 @@ interface userRegisterRequestType {
   phoneNumber: string;
 }
 
-
 // Define a service using a base URL and expected endpoints
 export const visitorSystem = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
   endpoints: (builder) => ({
     masterApi: builder.query<MaterApiResponse, void>({
-      query: () =>
-        `getAll`,
+      query: () => `getAll`,
     }),
     inviteeRequest: builder.mutation<inviteeResponseType, inviteeRequestType>({
       query: (payload: object) => ({
@@ -113,24 +112,24 @@ export const visitorSystem = createApi({
     }),
 
     visitRequest: builder.mutation<void, visitRequestType>({
-            query: (data: visitRequestType) => ({
-                url: '/saveVisits',
-                method: 'POST',
-                body: data,
-            }),
-        }),
-    userRegistration: builder.mutation<void, userRegisterRequestType>({
-          query: (data: userRegisterRequestType) => ({
-              url: '/addUsers',
-              method: 'POST',
-              body: data,
-          }),
+      query: (data: visitRequestType) => ({
+        url: "/saveVisits",
+        method: "POST",
+        body: data,
       }),
+    }),
     inviteDetails: builder.query<inviteesDetailsRequest, string>({
-        query: (invitees_id) => ({
-            url: `/getInviteById/${invitees_id}`,
-            method: 'GET',
-        }),
+      query: (invitees_id) => ({
+        url: `/getInviteById/${invitees_id}`,
+        method: "GET",
+      }),
+    }),
+    userRegistration: builder.mutation<void, userRegisterRequestType>({
+      query: (data: userRegisterRequestType) => ({
+          url: '/addUsers',
+          method: 'POST',
+          body: data,
+      }),
     }),
   }),
 });
@@ -138,5 +137,10 @@ export const visitorSystem = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 
-export const { useMasterApiQuery, useVisitRequestMutation,useInviteeRequestMutation,useInviteDetailsQuery, useUserRegistrationMutation } = visitorSystem
-
+export const {
+  useMasterApiQuery,
+  useVisitRequestMutation,
+  useInviteeRequestMutation,
+  useInviteDetailsQuery,
+  useUserRegistrationMutation
+} = visitorSystem;
