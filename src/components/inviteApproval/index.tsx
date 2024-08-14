@@ -94,31 +94,25 @@ export const InviteApproval: React.FC<InviteProps> = () => {
                     <span>{inviteDetails?.data?.venue?.address || "Address"}</span>
                   </div>
                 </div>
-                {
-                  !disabled && 
                   <div className={styles.inviteUserAction}>
                   <button
                     className={styles.inviteUserActionYes}
                     onClick={generateRandomNumber}
-                    disabled={disabled} // Disable button if state is true
+                   
                   >
                     Yes
                   </button>
                   <button 
                     className={styles.inviteUserActionNo} 
                     onClick={handleNoClick}
-                    disabled={disabled} // Disable button if state is true
                   >
                     No
                   </button>
                 </div>
-                }
                 
                 {
-                  rejectMessage ? 
-                  <div style={{fontSize: 12, color: 'red'}}>{rejectMessage}</div> : 
-                    disabled &&
-                    <div style={{fontSize: 12, color: 'red', marginTop: 20}}>Response already submitted</div>
+                  rejectMessage &&
+                  <div style={{fontSize: 12, color: 'red'}}>{rejectMessage}</div>
                 }
               </>
             )}
