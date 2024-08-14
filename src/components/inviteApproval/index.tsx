@@ -50,7 +50,7 @@ export const InviteApproval: React.FC<InviteProps> = () => {
           if (res?.data) {
             toast.success("Barcode generated successfully.");
           } else {
-            toast.error("Failed to submit response.");
+            toast.error("Failed to submit.");
           }
         })
         .catch(() => {
@@ -68,15 +68,15 @@ export const InviteApproval: React.FC<InviteProps> = () => {
     })
       .then((res) => {
         if (res?.data) {
-          toast.success("Response submitted successfully");
+          toast.success("Response submitted successfully.");
         } else {
-          toast.error("Failed to submit response");
+          toast.error("Failed to submit.");
         }
         setDisabled(true);
-        setRejectMessage("Invitation Rejected");
+        setRejectMessage("Invitation Rejected.");
       })
       .catch(() => {
-        toast.error("Failed to submit response.");
+        toast.error("Failed to submit.");
       });
   };
 
@@ -150,11 +150,13 @@ export const InviteApproval: React.FC<InviteProps> = () => {
           <div className={styles.BarcodeContainer}>
             <span className={styles.inviteHeaderText}>
               {inviteDetails?.data?.event?.name &&
-                inviteDetails?.data?.event?.name + " , "}
+                inviteDetails?.data?.event?.name + ", "}
               {inviteDetails?.data?.venue?.name}
             </span>
             <Barcode value={randomBarcodeNumber} /> {/* Display the barcode */}
-            <span>{inviteDetails?.data?.user?.fullName}</span>
+            <span className={styles.fullNameStyles}>
+              {inviteDetails?.data?.user?.fullName}
+            </span>
           </div>
         )}
       </div>

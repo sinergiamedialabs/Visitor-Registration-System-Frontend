@@ -71,12 +71,12 @@ const Invite: React.FC = () => {
       const response = await inviteMutation(payload);
       console.log(response);
       if (response?.data?.status === true) {
-        toast.success("Invitation successfully send");
+        toast.success("Invitation sent successfully.");
       } else if (response?.error) {
         toast.error("Email already sent to the user for this event.");
       }
     } catch {
-      toast.error("Error");
+      toast.error("Failed to submit.");
     }
   };
 
