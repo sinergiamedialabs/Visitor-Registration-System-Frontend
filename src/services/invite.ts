@@ -88,8 +88,8 @@ export const visitorSystem = createApi({
         body: payload,
       }),
     }),
-    visitRequest: builder.mutation<void, visitRequestType>({
-            query: (data: visitRequestType) => ({
+    visitRequest: builder.mutation<void, visitRequest>({
+            query: (data: visitRequest) => ({
                 url: '',
                 method: 'POST',
                 body: data,
@@ -101,4 +101,4 @@ export const visitorSystem = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 
-export const { useMasterApiQuery, useInviteeRequestQuery, useVisitRequestMutation, useInviteeRequestMutation } = visitorSystem
+export const { useMasterApiQuery, useVisitRequestMutation, useInviteeRequestMutation } = visitorSystem
