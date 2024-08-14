@@ -24,7 +24,7 @@ const UserRegistration: React.FC = () => {
       ),
     phoneNumber: Yup.string()
       .required("Phone number is required*")
-      .max(10, "Phone number must not exceed 10 digits"),
+      .max(15, "Phone number must not exceed 14 digits"),
   });
   const handleSubmit = async (values: any) => {
     const payload = {
@@ -37,12 +37,12 @@ const UserRegistration: React.FC = () => {
       const response = await userRegistration(payload);
       console.log(response);
       if (response.error) {
-        toast.error("Email already exists");
+        toast.error("Email already exists.");
       } else {
-        toast.success("User registered succesfully");
+        toast.success("User registered succesfully.");
       }
     } catch {
-      toast.error("Error");
+      toast.error("Failed to submit.");
     }
   };
 

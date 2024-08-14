@@ -95,5 +95,9 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+
+    .fullNameStyles {
+      font-weight: 600;
+    }
   }
 }
