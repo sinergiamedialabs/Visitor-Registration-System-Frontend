@@ -39,10 +39,9 @@ interface inviteeRequestType {
 }
 
 interface visitRequestType{
-  id: number;
   invitees_id: number;
   barCode: string;
-  isAccepted: boolean;
+  accepted: boolean;
 }
 
 const BaseUrl = process.env.REACT_APP_API_BASE_URL
