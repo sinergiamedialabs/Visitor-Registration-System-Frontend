@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
 
-    env:
-      REACT_APP_API_BASE_URL: ${{ vars.REACT_APP_API_BASE_URL }}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -20,10 +17,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 16.14.0
+          node-version: 18.20.4
 
       - name: Install Dependencies
         run: npm install
+
+      - name: Populate env file
+        run: echo ${{ vars.REACT_APP_API_BASE_URL }} > .env
 
       - name: Build React App
         run: CI=false; npm run build; ls -al
