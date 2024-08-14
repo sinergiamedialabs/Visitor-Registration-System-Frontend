@@ -108,6 +108,7 @@ const UserRegistration: React.FC = () => {
                 >
                   User Register
                 </Button>
+                <a href="/" style={{marginTop: 5, textDecoration: 'underline', cursor: 'pointer'}}>Invite User</a>
               </Form>
             )}
           </Formik>
