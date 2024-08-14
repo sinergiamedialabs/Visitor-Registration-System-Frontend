@@ -2,7 +2,8 @@ name: Visitor Registration System Frontend Deployment
 on:
   push:
     branches:
-      - release/dev
+      - devops/CICD
+      - dev
 
 jobs:
   deploy:
@@ -10,14 +11,14 @@ jobs:
     environment: dev
 
     env:
-      VITE_API_URL: ${{ vars.REACT_APP_API_BASE_URL }}
+      REACT_APP_API_BASE_URL: ${{ vars.REACT_APP_API_BASE_URL }}
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 16.14.0
 
@@ -32,14 +33,14 @@ jobs:
         with:
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: ap-south-1  
+            aws-region: ${{ secrets.AWS_REGION }}  
     
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.ECR_REGISTRY }}/vrs-fe:latest .
+        run: docker build -t ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }} .
 
       - name: Push Docker image to Amazon ECR
         run: |
-            docker push ${{ secrets.ECR_REGISTRY }}/vrs-fe:latest
+            docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
