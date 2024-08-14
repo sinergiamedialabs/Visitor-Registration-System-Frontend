@@ -2,7 +2,7 @@ name: Visitor Registration System Frontend Deployment
 on:
   push:
     branches:
-      - devops/CICD
+      #- devops/CICD
       - dev
 
 jobs:
