@@ -173,8 +173,9 @@ const Invite: React.FC = () => {
                     "Invite"
                   )}
                 </Button>
+                <a href="/user_registration" style={{marginTop: 5, textDecoration: 'underline', cursor: 'pointer'}}>Add User</a>
                 <div>
-                  <img className={styles.imgContainer} src={logoImage} />
+                  <img className={styles.imgContainer} src={logoImage} alt="Logo"/>
                 </div>
               </Form>
             )}
