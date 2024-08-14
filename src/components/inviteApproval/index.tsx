@@ -7,6 +7,7 @@ import {
 } from "../../services/invite";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 interface InviteProps {}
 
@@ -67,9 +68,9 @@ export const InviteApproval: React.FC<InviteProps> = () => {
     })
       .then((res) => {
         if (res?.data) {
-          toast.success("Response submitted successfully!");
+          toast.success("Response submitted successfully");
         } else {
-          toast.error("Failed to submit response.");
+          toast.error("Failed to submit response");
         }
         setDisabled(true);
         setRejectMessage("Invitation Rejected");
@@ -91,7 +92,9 @@ export const InviteApproval: React.FC<InviteProps> = () => {
         {!randomBarcodeNumber ? (
           <>
             {isLoading ? (
-              <span>Loading...</span>
+              <span>
+                <CircularProgress className={styles.loaderStyles} />
+              </span>
             ) : (
               <>
                 <span className={styles.inviteHeaderText}>
@@ -99,12 +102,12 @@ export const InviteApproval: React.FC<InviteProps> = () => {
                 </span>
                 <div className={styles.inviteDetails}>
                   <div className={styles.inviteDetailsLabels}>
-                    <span>Event:</span>
-                    <span>Venue:</span>
-                    <span>Address:</span>
-                    <span>Date:</span>
+                    <span>Event :</span>
+                    <span>Venue :</span>
+                    <span>Address :</span>
+                    <span>Date :</span>
                   </div>
-                  <div className={styles.inviteDetailsLabels}>
+                  <div className={styles.inviteDetailsData}>
                     <span>{inviteDetails?.data?.event?.name || "Event"}</span>
                     <span>{inviteDetails?.data?.venue?.name || "Venue"}</span>
                     <span>
@@ -146,9 +149,12 @@ export const InviteApproval: React.FC<InviteProps> = () => {
         ) : (
           <div className={styles.BarcodeContainer}>
             <span className={styles.inviteHeaderText}>
-              Here is your Barcode
+              {inviteDetails?.data?.event?.name &&
+                inviteDetails?.data?.event?.name + " , "}
+              {inviteDetails?.data?.venue?.name}
             </span>
             <Barcode value={randomBarcodeNumber} /> {/* Display the barcode */}
+            <span>{inviteDetails?.data?.user?.fullName}</span>
           </div>
         )}
       </div>

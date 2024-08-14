@@ -19,6 +19,12 @@
     padding: 25px 15px;
     border-radius: 2px;
   }
+  .loaderStyles {
+    color: #2f7e62;
+    height: 5px;
+    width: 5px;
+    padding: 5px;
+  }
   .inviteHeaderText {
     font-size: 16px;
     font-weight: 600;
@@ -34,6 +40,13 @@
   .inviteDetailsLabels {
     display: flex;
     flex-direction: column;
+    text-align: right;
+    font-weight: 500;
+  }
+  .inviteDetailsData {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
   }
   .inviteUserAction {
     display: flex;
@@ -80,5 +93,7 @@
   .BarcodeContainer {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
 }
