@@ -41,6 +41,10 @@ jobs:
       - name: Build Docker image
         run: docker build -t ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }} .
 
-      - name: Push Docker image to Amazon ECR
+      - name: Push Docker image to Amazon ECR Private
+        run: docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+      
+      - name: Push Docker image to Amazon ECR public
         run: |
-            docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+          docker tag ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest public.ecr.aws/z7w3s5l6/vrs-frontend:latest
+          docker push public.ecr.aws/z7w3s5l6/vrs-frontend:latest
