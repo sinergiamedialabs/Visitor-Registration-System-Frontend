@@ -35,11 +35,19 @@ jobs:
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ secrets.AWS_REGION }}  
     
-      - name: Log in to Amazon ECR
+      - name: Log in to Amazon ECR Private
+        id: login-ecr-private
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build Docker image
         run: docker build -t ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }} .
+
+      - name: Login to Amazon ECR Public
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          mask-password: 'true'
+          registry-type: public
 
       - name: Push Docker image to Amazon ECR Private
         run: docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
