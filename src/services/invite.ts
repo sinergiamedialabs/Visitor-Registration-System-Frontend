@@ -66,7 +66,6 @@ interface inviteeResponseUser {
 }
 
 interface visitRequestType {
-  // id: number;
   invitees_id: number;
   barCode: string;
   isAccepted: boolean;
@@ -133,9 +132,6 @@ export const visitorSystem = createApi({
     }),
   }),
 });
-
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 
 export const {
   useMasterApiQuery,

@@ -119,6 +119,7 @@ const UserRegistration: React.FC = () => {
                     marginTop: 5,
                     textDecoration: "underline",
                     cursor: "pointer",
+                    color: "#45BD94",
                   }}
                 >
                   Invite User
