@@ -113,15 +113,7 @@ const UserRegistration: React.FC = () => {
                     "User Register"
                   )}
                 </Button>
-                <a
-                  href="/"
-                  style={{
-                    marginTop: 5,
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                    color: "#45BD94",
-                  }}
-                >
+                <a href="/" className={styles.hrefStyles}>
                   Invite User
                 </a>
               </Form>

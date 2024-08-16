@@ -181,15 +181,7 @@ const Invite: React.FC = () => {
                     "Invite"
                   )}
                 </Button>
-                <a
-                  href="/user_registration"
-                  style={{
-                    marginTop: 5,
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                    color: "#45BD94",
-                  }}
-                >
+                <a href="/user_registration" className={styles.hrefStyles}>
                   Add User
                 </a>
                 <div>
