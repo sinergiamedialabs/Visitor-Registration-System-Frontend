@@ -153,7 +153,7 @@ export const InviteApproval: React.FC<InviteProps> = () => {
                 inviteDetails?.data?.event?.name + ", "}
               {inviteDetails?.data?.venue?.name}
             </span>
-            <Barcode value={randomBarcodeNumber} /> {/* Display the barcode */}
+            <Barcode value={randomBarcodeNumber} />
             <span className={styles.fullNameStyles}>
               {inviteDetails?.data?.user?.fullName}
             </span>
