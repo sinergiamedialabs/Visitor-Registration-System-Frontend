@@ -93,8 +93,11 @@ const Invite: React.FC = () => {
               <Form className={styles.contentColumn}>
                 <div className={styles.headingLabel}>Visitor Invites</div>
                 <div className={styles.fieldDiv}>
-                  <label className={styles.labelStyles}>Name</label>
+                  <label className={styles.labelStyles} htmlFor="name">
+                    Name
+                  </label>
                   <Field
+                    id="name"
                     name="name"
                     as="select"
                     label="Name"
@@ -116,7 +119,9 @@ const Invite: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label className={styles.labelStyles}>Venue</label>
+                  <label className={styles.labelStyles} htmlFor="venue">
+                    Venue
+                  </label>
                   <Field
                     name="venue"
                     id="venue"
@@ -140,8 +145,11 @@ const Invite: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label className={styles.labelStyles}>Event</label>
+                  <label className={styles.labelStyles} htmlFor="event">
+                    Event
+                  </label>
                   <Field
+                    id="event"
                     name="event"
                     as="select"
                     className={styles.fieldStyles}
@@ -173,9 +181,23 @@ const Invite: React.FC = () => {
                     "Invite"
                   )}
                 </Button>
-                <a href="/user_registration" style={{marginTop: 5, textDecoration: 'underline', cursor: 'pointer'}}>Add User</a>
+                <a
+                  href="/user_registration"
+                  style={{
+                    marginTop: 5,
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                    color: "#45BD94",
+                  }}
+                >
+                  Add User
+                </a>
                 <div>
-                  <img className={styles.imgContainer} src={logoImage} alt="Logo"/>
+                  <img
+                    className={styles.imgContainer}
+                    src={logoImage}
+                    alt="Logo"
+                  />
                 </div>
               </Form>
             )}
