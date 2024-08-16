@@ -139,7 +139,7 @@ export const InviteApproval: React.FC<InviteProps> = () => {
                 </div>
 
                 {rejectMessage && (
-                  <div style={{ fontSize: 12, color: "red", marginTop: 20 }}>
+                  <div className={styles.rejectMessageStyles}>
                     {rejectMessage}
                   </div>
                 )}
