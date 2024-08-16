@@ -11,7 +11,7 @@ const UserRegistration: React.FC = () => {
     useUserRegistrationMutation();
 
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Fullname is required*"),
+    fullName: Yup.string().required("Full name is required*"),
     email: Yup.string()
       .required("Email is required*")
       .matches(
@@ -23,8 +23,8 @@ const UserRegistration: React.FC = () => {
         "Please enter a valid email address"
       ),
     phoneNumber: Yup.string()
-      .required("Phone number is required*")
-      .max(15, "Phone number must not exceed 14 digits"),
+      .required("Contact number is required*")
+      .max(15, "Contact number must not exceed 14 digits"),
   });
   const handleSubmit = async (values: any) => {
     const payload = {
@@ -63,7 +63,7 @@ const UserRegistration: React.FC = () => {
               <Form className={styles.contentColumn}>
                 <div className={styles.headingLabel}>User Registration</div>
                 <div className={styles.fieldDiv}>
-                  <label>Full name</label>
+                  <label className={styles.labelStyles}>Full Name</label>
                   <Field
                     name="fullName"
                     id="fullName"
@@ -77,7 +77,7 @@ const UserRegistration: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label>Email</label>
+                  <label className={styles.labelStyles}>Email</label>
                   <Field
                     name="email"
                     id="email"
@@ -92,7 +92,7 @@ const UserRegistration: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label>Contact number</label>
+                  <label className={styles.labelStyles}>Contact Number</label>
                   <Field
                     name="phoneNumber"
                     id="phonenumber"
