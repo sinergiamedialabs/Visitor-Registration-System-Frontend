@@ -65,11 +65,9 @@ const Invite: React.FC = () => {
       eventId: values.event,
       url: `${window.location.href}invite_approval`,
     };
-    console.log(window.location.href);
 
     try {
       const response = await inviteMutation(payload);
-      console.log(response);
       if (response?.data?.status === true) {
         toast.success("Invitation sent successfully.");
       } else if (response?.error) {
