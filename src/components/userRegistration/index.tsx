@@ -35,7 +35,6 @@ const UserRegistration: React.FC = () => {
 
     try {
       const response = await userRegistration(payload);
-      console.log(response);
       if (response.error) {
         toast.error("Email already exists.");
       } else {
@@ -63,12 +62,12 @@ const UserRegistration: React.FC = () => {
               <Form className={styles.contentColumn}>
                 <div className={styles.headingLabel}>User Registration</div>
                 <div className={styles.fieldDiv}>
-                  <label className={styles.labelStyles}>Full Name</label>
+                  <label className={styles.labelStyles} htmlFor="fullName">Full Name</label>
                   <Field
                     name="fullName"
                     id="fullName"
                     className={styles.textField}
-                    label="Full name"
+                    label="Full Name"
                   ></Field>
                   <ErrorMessage
                     name="fullName"
@@ -77,7 +76,7 @@ const UserRegistration: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label className={styles.labelStyles}>Email</label>
+                  <label className={styles.labelStyles}  htmlFor="email">Email</label>
                   <Field
                     name="email"
                     id="email"
@@ -92,7 +91,7 @@ const UserRegistration: React.FC = () => {
                   />
                 </div>
                 <div className={styles.fieldDiv}>
-                  <label className={styles.labelStyles}>Contact Number</label>
+                  <label className={styles.labelStyles}  htmlFor="phoneNumber">Contact Number</label>
                   <Field
                     name="phoneNumber"
                     id="phonenumber"
