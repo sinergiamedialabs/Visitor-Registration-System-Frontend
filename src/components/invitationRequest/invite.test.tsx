@@ -73,10 +73,11 @@ describe('Invite Component', () => {
 
   it('submits the form with correct payload', async () => {
     render(<Invite />);
+
     // Fill out the form
-    fireEvent.change(screen.getByLabelText('/name/i'), { target: { value: '2' } });
-    fireEvent.change(screen.getByLabelText('/venue/i'), { target: { value: '2' } });
-    fireEvent.change(screen.getByLabelText('/event/i'), { target: { value: '2' } });
+    fireEvent.change(screen.getByLabelText('Name'), { target: { value: '2' } });
+    fireEvent.change(screen.getByLabelText('Venue'), { target: { value: '2' } });
+    fireEvent.change(screen.getByLabelText('Event'), { target: { value: '2' } });
 
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /invite/i }));
@@ -89,34 +90,35 @@ describe('Invite Component', () => {
         url: `${window.location.href}invite_approval`,
       });
     });
+    screen.debug()
 
     expect(toast.success).toHaveBeenCalledWith('Invitation sent successfully.');
   });
 
-  // it('handles API error correctly', async () => {
-  //   mockInviteeRequestMutation.mockRejectedValueOnce(new Error('API Error'));
+  it('handles API error correctly', async () => {
+    mockInviteeRequestMutation.mockRejectedValueOnce(new Error('API Error'));
 
-  //   render(<Invite />);
+    render(<Invite />);
 
-  //   // Fill out the form
-  //   fireEvent.change(screen.getByLabelText('Name'), { target: { value: '1' } });
-  //   fireEvent.change(screen.getByLabelText('Venue'), { target: { value: '1' } });
-  //   fireEvent.change(screen.getByLabelText('Event'), { target: { value: '1' } });
+    // Fill out the form
+    fireEvent.change(screen.getByLabelText('Name'), { target: { value: '1' } });
+    fireEvent.change(screen.getByLabelText('Venue'), { target: { value: '1' } });
+    fireEvent.change(screen.getByLabelText('Event'), { target: { value: '1' } });
 
-  //   // Submit the form
-  //   fireEvent.click(screen.getByRole('button', { name: /invite/i }));
+    // Submit the form
+    fireEvent.click(screen.getByRole('button', { name: /invite/i }));
 
-  //   await waitFor(() => {
-  //     expect(toast.error).toHaveBeenCalledWith('Failed to submit.');
-  //   });
-  // });
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Failed to submit.');
+    });
+  });
 
-  // it('shows loader when mutation is in progress', async () => {
-  //   (useInviteeRequestMutation as jest.Mock).mockReturnValue([mockInviteeRequestMutation, { isLoading: true }]);
+  it('shows loader when mutation is in progress', async () => {
+    (useInviteeRequestMutation as jest.Mock).mockReturnValue([mockInviteeRequestMutation, { isLoading: true }]);
 
-  //   render(<Invite />);
+    render(<Invite />);
 
-  //   // Check if the loader is displayed
-  //   expect(screen.getByRole('progressbar')).toBeInTheDocument();
-  // });
+    // Check if the loader is displayed
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
 });
